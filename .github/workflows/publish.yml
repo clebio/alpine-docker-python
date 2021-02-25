@@ -1,0 +1,21 @@
+name: Build
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        base:
+          - alpine
+          - slim
+
+    name: Build image from ${{ matrix.base }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Docker build
+        uses: docker/build-push-action@v2
+        with:
+          file: ${{ matrix.base }}/Dockerfile
